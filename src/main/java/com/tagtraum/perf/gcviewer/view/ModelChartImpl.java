@@ -398,6 +398,7 @@ public class ModelChartImpl extends JScrollPane implements ModelChart, ChangeLis
     @Override
     public void setShowAverageUtilization(boolean showAverageUtilization) {
         averageUtilizationRenderer.setVisible(showAverageUtilization);
+        percentRuler.setVisible(showAverageUtilization);
     }
 
     @Override
