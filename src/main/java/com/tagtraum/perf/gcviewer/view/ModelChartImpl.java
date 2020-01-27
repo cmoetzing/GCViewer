@@ -42,6 +42,7 @@ public class ModelChartImpl extends JScrollPane implements ModelChart, ChangeLis
     private Ruler timestampRuler;
     private Ruler memoryRuler;
     private Ruler pauseRuler;
+    private Ruler percentRuler;
     private double scaleFactor = 1;
     private double runningTime;
     private double maxPause;
@@ -58,6 +59,7 @@ public class ModelChartImpl extends JScrollPane implements ModelChart, ChangeLis
     private UsedYoungRenderer usedYoungRenderer;
     private InitialMarkLevelRenderer initialMarkLevelRenderer;
     private ConcurrentGcBeginEndRenderer concurrentGcLineRenderer;
+    private AverageUtilizationRenderer averageUtilizationRenderer;
     private boolean antiAlias;
     private TimeOffsetPanel timeOffsetPanel;
     private int lastViewPortWidth = 0;
@@ -103,6 +105,8 @@ public class ModelChartImpl extends JScrollPane implements ModelChart, ChangeLis
         chart.add(totalYoungRenderer, gridBagConstraints);
         totalHeapRenderer = new TotalHeapRenderer(this);
         chart.add(totalHeapRenderer, gridBagConstraints);
+        averageUtilizationRenderer = new AverageUtilizationRenderer(this);
+        chart.add(averageUtilizationRenderer, gridBagConstraints);
 
         setViewportView(chart);
         // This would make scrolling slower, but eliminates flickering...
@@ -128,11 +132,15 @@ public class ModelChartImpl extends JScrollPane implements ModelChart, ChangeLis
         constraints.gridy = 1;
         this.memoryRuler = new Ruler(true, 0, model.getFootprint() / 1024, "M");
         this.pauseRuler = new Ruler(true, 0, model.getPause().getMax(), "s");
+        this.percentRuler = new Ruler(true, 0, 100/AverageUtilizationRenderer.MAGNIFICATION_FACTOR, "%");
         layout.setConstraints(memoryRuler, constraints);
         rowHeaderPanel.add(memoryRuler);
-        constraints.gridx = 1;
+        constraints.gridx++;
         layout.setConstraints(pauseRuler, constraints);
         rowHeaderPanel.add(pauseRuler);
+        constraints.gridx++;
+        layout.setConstraints(percentRuler, constraints);
+        rowHeaderPanel.add(percentRuler);
         setRowHeaderView(rowHeaderPanel);
         setCorner(JScrollPane.UPPER_LEFT_CORNER, new JPanel());
         setCorner(JScrollPane.LOWER_LEFT_CORNER, new JPanel());
@@ -387,6 +395,16 @@ public class ModelChartImpl extends JScrollPane implements ModelChart, ChangeLis
         return concurrentGcLineRenderer.isVisible();
     }
 
+    @Override
+    public void setShowAverageUtilization(boolean showAverageUtilization) {
+        averageUtilizationRenderer.setVisible(showAverageUtilization);
+    }
+
+    @Override
+    public boolean isShowAverageUtilization() {
+        return averageUtilizationRenderer.isVisible();
+    }
+
     public void setModel(GCModel model, GCPreferences preferences) {
         this.model = model;
 
@@ -414,6 +432,7 @@ public class ModelChartImpl extends JScrollPane implements ModelChart, ChangeLis
         setShowUsedYoungMemoryLine(preferences.getGcLineProperty(GCPreferences.USED_YOUNG_MEMORY));
         setShowInitialMarkLevel(preferences.getGcLineProperty(GCPreferences.INITIAL_MARK_LEVEL));
         setShowConcurrentCollectionBeginEnd(preferences.getGcLineProperty(GCPreferences.CONCURRENT_COLLECTION_BEGIN_END));
+        setShowAverageUtilization(preferences.getGcLineProperty(GCPreferences.AVERAGE_UTILIZATION));
         setShowDateStamp(preferences.getGcLineProperty(GCPreferences.SHOW_DATE_STAMP, false));
     }
 

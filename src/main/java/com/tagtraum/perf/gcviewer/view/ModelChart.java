@@ -60,6 +60,10 @@ public interface ModelChart {
     
     boolean isShowConcurrentCollectionBeginEnd();
 
+    void setShowAverageUtilization(boolean showAverageUtilization);
+
+    boolean isShowAverageUtilization();
+
     void setRunningTime(double runningTime);
 
     void setFootprint(long footPrint);
@@ -73,11 +77,10 @@ public interface ModelChart {
     boolean isAntiAlias();
 
     void setAntiAlias(boolean antiAlias);
-    
+
     void resetPolygonCache();
 
     void setShowDateStamp(boolean showDateStamp);
 
     boolean isShowDateStamp();
-
 }

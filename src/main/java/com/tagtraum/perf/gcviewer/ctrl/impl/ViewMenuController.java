@@ -83,6 +83,9 @@ public class ViewMenuController implements ActionListener, PropertyChangeListene
         else if (GCPreferences.CONCURRENT_COLLECTION_BEGIN_END.equals(e.getActionCommand())) {
             gui.getSelectedGCDocument().getModelChart().setShowConcurrentCollectionBeginEnd(state);
         }
+        else if (GCPreferences.AVERAGE_UTILIZATION.equals(e.getActionCommand())) {
+            gui.getSelectedGCDocument().getModelChart().setShowAverageUtilization(state);
+        }
     }
 
     @Override

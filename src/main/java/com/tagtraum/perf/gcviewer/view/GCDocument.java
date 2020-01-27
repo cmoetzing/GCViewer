@@ -584,6 +584,20 @@ public class GCDocument extends JInternalFrame {
         }
 
         @Override
+        public void setShowAverageUtilization(boolean showAverageUtilization) {
+            preferences.setGcLineProperty(GCPreferences.AVERAGE_UTILIZATION, showAverageUtilization);
+            for (ChartPanelView chartPanelView : chartPanelViews) {
+                chartPanelView.getModelChart().setShowAverageUtilization(showAverageUtilization);
+            }
+        }
+
+        @Override
+        public boolean isShowAverageUtilization() {
+            if (chartPanelViews.isEmpty()) return false;
+            return chartPanelViews.get(0).getModelChart().isShowAverageUtilization();
+        }
+
+        @Override
         public void resetPolygonCache() {
             for (ChartPanelView chartPanelView : chartPanelViews) {
                 chartPanelView.getModelChart().resetPolygonCache();

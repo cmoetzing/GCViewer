@@ -237,6 +237,13 @@ public class GCViewerGuiBuilder {
         menuItemConcurrentGcBeginEnd.addActionListener(viewMenuController);
         menuBar.addToViewMenu(GCPreferences.CONCURRENT_COLLECTION_BEGIN_END, menuItemConcurrentGcBeginEnd);
 
+        StayOpenCheckBoxMenuItem menuItemAverageUtilization = new StayOpenCheckBoxMenuItem(LocalisationHelper.getString("main_frame_menuitem_average_utilization"), true);
+        menuItemAverageUtilization.setToolTipText(LocalisationHelper.getString("main_frame_menuitem_hint_average_utilization"));
+        menuItemAverageUtilization.setIcon(ImageHelper.createMonoColoredImageIcon(AverageUtilizationRenderer.DEFAULT_FILL_PAINT, 20, 20));
+        menuItemAverageUtilization.setActionCommand(GCPreferences.AVERAGE_UTILIZATION);
+        menuItemAverageUtilization.addActionListener(viewMenuController);
+        menuBar.addToViewMenu(GCPreferences.AVERAGE_UTILIZATION, menuItemAverageUtilization);
+
         if (OSXSupport.hasOSXFullScreenSupport()) {
             // TODO No saving in properties?
             menuBar.addSeparatorToViewMenu();
