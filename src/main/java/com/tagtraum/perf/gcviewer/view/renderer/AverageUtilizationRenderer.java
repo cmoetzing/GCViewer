@@ -53,8 +53,11 @@ public class AverageUtilizationRenderer extends PolygonChartRenderer {
                 polygon.addPoint(0, utilization);
             }
             polygon.addPoint(x, utilization);
+
+            if(!i.hasNext()) {
+                polygon.addPointNotOptimised(model.getRunningTime(), utilization);
+            }
         }
-        polygon.addPointNotOptimised(model.getRunningTime(), utilization);
         polygon.addPointNotOptimised(model.getRunningTime(), 0.0d);
 
         return polygon;
