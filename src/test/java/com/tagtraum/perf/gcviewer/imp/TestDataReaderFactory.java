@@ -124,6 +124,16 @@ public class TestDataReaderFactory {
     }
 
     @Test
+    public void testIBMJ9_Java8Update221() throws Exception {
+        String fileName = "SampleIBMJ9_1.8.0_221.txt";
+        try (InputStream in = getInputStreamIBM(fileName)) {
+            DataReader reader = new DataReaderFactory().getDataReader(new GcResourceFile(fileName), in);
+            assertDataReader(DataReaderIBM_J9_R28.class, reader.getClass());
+        }
+    }
+
+
+    @Test
     public void testJRockit1_4GcReportGenCon() throws Exception { 
         String fileName = "SampleJRockit1_4_2ts-gcreport-gencon.txt";
         try (InputStream in = getInputStreamJRockit(fileName)) {

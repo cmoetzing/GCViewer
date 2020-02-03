@@ -137,6 +137,23 @@ public class TestDataReaderIBM_J9_R28 {
     }
 
     @Test
+    public void testJava8Update221() throws Exception {
+        // there are minimal concurrent blocks, that don't contain any information, that the parser can use (at least, at the moment)
+        TestLogHandler handler = new TestLogHandler();
+        handler.setLevel(Level.WARNING);
+        GCResource gcResource = new GcResourceFile("SampleIBMJ9_1.8.0_221.txt");
+        gcResource.getLogger().addHandler(handler);
+
+        DataReader reader = getDataReader(gcResource);
+        GCModel model = reader.read();
+
+        assertThat("model size", model.size(), is(1));
+        assertThat("number of errors", handler.getCount(), is(0));
+    }
+
+
+
+    @Test
     public void testConcurrentCollection() throws Exception {
         TestLogHandler handler = new TestLogHandler();
         handler.setLevel(Level.WARNING);

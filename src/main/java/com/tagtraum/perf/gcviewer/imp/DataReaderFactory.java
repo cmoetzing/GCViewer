@@ -113,7 +113,7 @@ public class DataReaderFactory {
             // skip ahead of <start>-<end>: <type> <before>KB-><after>KB (<heap>KB
             String realLog;
             if (startOfRealLog >= 0){
-                realLog = s.substring(startOfRealLog); 
+                realLog = s.substring(startOfRealLog);
                 // skip all start report info to real log to determine JRockit version
             }
             else {
@@ -195,7 +195,7 @@ public class DataReaderFactory {
             if (getLogger().isLoggable(Level.INFO)) getLogger().info("File format: HP-UX 1.4.1/1.4.2");
             return new DataReaderHPUX1_4_1(gcResource, in);
         }
-        else if (s.contains("<verbosegc") && (s.contains("version=\"R26_Java6") || s.contains("version=\"R27_Java7") || s.contains("version=\"R28_Java8"))) {
+        else if (s.contains("<verbosegc") && s.contains ("xmlns=\"http://www.ibm.com/j9/verbosegc\"") && s.contains("_CMPRSS\"")) {
             if (getLogger().isLoggable(Level.INFO)) getLogger().info("File format: IBM J9 R26 / R27 / R28");
             return new DataReaderIBM_J9_R28(gcResource, in);
         }
